@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎀 AURATUBE 🎀</title>
+  <!-- Cute Bow Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎀</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #ffe6f2;
+      --bg-2: #ffd1e8;
+      --bg-3: #f3e5ff;
+      --card: rgba(255, 255, 255, 0.84);
+      --accent: #ff4d94;
+      --accent-dark: #e62e7b;
+      --accent-soft: #ffe0ef;
+      --lavender: #c77dff;
+      --text: #4a1c36;
+      --muted: #8f5675;
+      --border: #ffb3d9;
+      --shadow: 0 12px 30px rgba(255, 77, 148, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    /* Floating Background Icons */
+    .floating-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floater {
+      position: absolute;
+      bottom: -50px;
+      opacity: 0.55;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(0.85); opacity: 0; }
+      15% { opacity: 0.65; }
+      85% { opacity: 0.65; }
+      100% { transform: translateY(-110vh) rotate(360deg) scale(1.15); opacity: 0; }
+    }
+
+    /* Vibe Check Entry Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(74, 28, 54, 0.55);
+      backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .modal-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .modal-box {
+      background: linear-gradient(145deg, #fff5fa, #ffe6f2);
+      border: 3px solid var(--accent);
+      border-radius: 28px;
+      max-width: 440px;
+      width: 100%;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(230, 46, 123, 0.35);
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-icon {
+      font-size: 3.2rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      animation: wiggle 2s infinite;
+    }
+
+    .modal-box h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      color: var(--accent-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-box p {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .modal-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn-pookie, .btn-mard, .btn-roast-link {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-pookie {
+      background: linear-gradient(135deg, #ff66a3, #ff2e88);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(255, 46, 136, 0.35);
+    }
+
+    .btn-pookie:hover { transform: scale(1.04); }
+
+    .btn-mard {
+      background: #fff;
+      color: var(--muted);
+      border: 2px solid var(--border);
+    }
+
+    .btn-mard:hover { background: #ffeef6; color: var(--accent-dark); }
+
+    .roast-alert {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border: 2px dashed var(--accent);
+      border-radius: 18px;
+      animation: shake 0.45s ease;
+    }
+
+    .roast-alert p {
+      color: var(--accent-dark);
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-roast-link {
+      background: #2b0f1e;
+      color: #fff;
+      font-size: 0.85rem;
+      padding: 0.55rem 1rem;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    /* Top Scrolling Marquee Ribbon */
+    .ribbon {
+      background: linear-gradient(90deg, #ff4d94, #c77dff, #ff4d94);
+      color: #fff;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 1.2px;
+      padding: 0.38rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 25;
+    }
+
+    .ribbon-track {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 22s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 240, 248, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 2px dashed var(--border);
+    }
+
+    .nav-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #ff66a3, #ff2e88);
+      color: #fff;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      border-radius: 16px;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 14px rgba(255, 46, 136, 0.35);
+      animation: wiggle 3s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(4deg) scale(1.06); }
+    }
+
+    .brand-title { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-title span:first-child {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      font-size: 1.2rem;
+      color: var(--accent-dark);
+    }
+    .brand-title span:last-child {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 1.8px;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    nav a {
+      background: #fff;
+      color: var(--accent-dark);
+      text-decoration: none;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(255, 77, 148, 0.15);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, color 0.2s;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    /* Main */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.2rem 1.25rem 3rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 2.25rem;
+      animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.85) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .pookie-pill {
+      display: inline-block;
+      background: #fff;
+      color: var(--accent-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.35rem 0.95rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      margin-bottom: 0.75rem;
+      box-shadow: 0 4px 12px rgba(255, 77, 148, 0.12);
+    }
+
+    .hero h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff2e88, #c77dff, #ff4d94);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmerText 4s linear infinite;
+      margin-bottom: 0.85rem;
+    }
+
+    @keyframes shimmerText { to { background-position: 200% center; } }
+
+    .caution-banner {
+      display: inline-block;
+      background: linear-gradient(135deg, #fff0f7, #ffe0f0);
+      border: 2px solid var(--accent);
+      color: var(--accent-dark);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 1px;
+      padding: 0.6rem 1.35rem;
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(255, 77, 148, 0.22);
+      animation: pulseGlow 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(255, 77, 148, 0.22); }
+      50% { transform: scale(1.03); box-shadow: 0 8px 26px rgba(255, 77, 148, 0.4); }
+    }
+
+    /* Interactive Aura & Pookie Meter Card */
+    .aura-box {
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 2.5px solid #fff;
+      border-radius: 24px;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .aura-btn {
+      background: linear-gradient(135deg, #c77dff, #ff4d94);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1.3rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(199, 125, 255, 0.35);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .aura-btn:hover { transform: scale(1.05); }
+    .aura-btn:active { transform: scale(0.95); }
+
+    .aura-result {
+      margin-top: 0.75rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      min-height: 1.4em;
+    }
+
+    /* Video Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.75rem;
+    }
+
+    article {
+      position: relative;
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 2.5px solid #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s, box-shadow 0.25s;
+      opacity: 0;
+      transform: translateY(25px);
+    }
+
+    article.visible { opacity: 1; transform: translateY(0); }
+
+    article:hover {
+      transform: translateY(-8px) rotate(-0.5deg);
+      border-color: var(--accent);
+      box-shadow: 0 18px 38px rgba(255, 77, 148, 0.28);
+    }
+
+    article.playing {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(255, 77, 148, 0.25), 0 18px 38px rgba(255, 77, 148, 0.35);
+    }
+
+    .dbl-heart {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 4rem;
+      pointer-events: none;
+      z-index: 10;
+      animation: bigHeart 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes bigHeart {
+      0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+      45% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
+      100% { transform: translate(-50%, -80%) scale(1.4); opacity: 0; }
+    }
+
+    .video-wrap { position: relative; padding: 0.65rem 0.65rem 0; }
+
+    video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #2b0f1e;
+      display: block;
+      border-radius: 16px;
+    }
+
+    .meta { padding: 1rem 1.25rem 1.25rem; }
+
+    .meta-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .track-num {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .now-playing {
+      display: none;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      animation: bounceBadge 1s infinite alternate;
+    }
+
+    article.playing .now-playing { display: inline-block; }
+
+    @keyframes bounceBadge {
+      from { transform: translateY(0); }
+      to { transform: translateY(-3px); }
+    }
+
+    .meta h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.18rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .artist {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 0.2rem;
+    }
+
+    .tags {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+
+    /* Reaction Bar */
+    .reactions {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      padding-top: 0.75rem;
+      border-top: 1.5px dashed var(--border);
+    }
+
+    .react-btn {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.32rem 0.65rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+
+    .react-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: scale(1.07);
+    }
+
+    .react-btn:active { transform: scale(0.92); }
+
+    /* Team Section */
+    #team {
+      margin-top: 4.25rem;
+      padding-top: 2.75rem;
+      border-top: 2px dashed var(--border);
+    }
+
+    #team h2 {
+      font-family: 'Fredoka', sans-serif;
+      text-align: center;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.65rem;
+      font-size: 1.65rem;
+      color: var(--accent-dark);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .member-card {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 2.5px solid #fff;
+      border-radius: 22px;
+      padding: 1.35rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--accent);
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ff7eb3, #ff4d94);
+      color: #fff;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(255, 77, 148, 0.3);
+    }
+
+    .role {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      letter-spacing: 1.4px;
+    }
+
+    .member-card h3 { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; }
+    .college { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 2px dashed var(--border);
+      background: rgba(255, 240, 248, 0.75);
+      padding: 1.5rem 1.25rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .footer-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* Floating Mini Pookie Player */
+    .mini-player {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      width: calc(100% - 24px);
+      max-width: 580px;
+      background: rgba(255, 245, 250, 0.94);
+      backdrop-filter: blur(16px);
+      border: 2.5px solid var(--accent);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      box-shadow: 0 12px 32px rgba(255, 46, 136, 0.28);
+    }
+
+    .disc {
+      font-size: 1.5rem;
+      display: inline-block;
+    }
+
+    .disc.spinning {
+      animation: spin 3s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .mini-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mini-label {
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mini-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mini-controls {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .mini-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.4rem 0.72rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+    }
+
+    .mini-btn.alt {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      border: 1.5px solid var(--border);
+    }
+
+    .mini-btn:hover { transform: scale(1.06); }
+
+    /* Sparkles & Reaction Popups */
+    .sparkle, .pop-emoji {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      animation: sparkleFade 0.85s ease-out forwards;
+    }
+
+    .pop-emoji {
+      font-size: 1.35rem;
+      animation: popFloat 1s ease-out forwards;
+    }
+
+    @keyframes sparkleFade {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+      100% { transform: translate(-50%, -130%) scale(1.3) rotate(25deg); opacity: 0; }
+    }
+
+    @keyframes popFloat {
+      0% { transform: translate(-50%, 0) scale(0.7); opacity: 1; }
+      100% { transform: translate(-50%, -75px) scale(1.4); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Vibe Check / Mard Detector Gate -->
+  <div class="modal-overlay" id="vibeModal">
+    <div class="modal-box">
+      <div class="modal-icon">🎀</div>
+      <h2>⚠️ POOKIE VIBE CHECK ⚠️</h2>
+      <p>Before entering <strong>AURATUBE</strong>, verify your identity. Zero red flags allowed past this point 💅</p>
+      <div class="modal-btns">
+        <button class="btn-pookie" id="enterPookieBtn">I'm a Certified Pookie 🎀✨</button>
+        <button class="btn-mard" id="mardBtn">I'm a Mard 💀</button>
+      </div>
+      <div class="roast-alert" id="roastAlert">
+        <p><strong>🚨 RED FLAG DETECTED!</strong><br>Sorry bro, this zone has too much aura for you. Go back to your basic site 🚩</p>
+        <a href="https://vbamula9-lgtm.github.io/mard-tube/" class="btn-roast-link">Take Me Back to MARD TUBE 💀</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Scrolling Announcement Ribbon -->
+  <div class="ribbon">
+    <div class="ribbon-track">
+      🎀 WELCOME TO AURATUBE OFFICIAL • 🌸 NOW STREAMING: PAON KI JUTTI • BAIRAN • JUTTI MERI • 💅 100% POOKIE ENERGY • DOUBLE-TAP ANY CARD TO SEND LOVE 💖
+    </div>
+  </div>
+
+  <!-- Floating Cute Icons Background -->
+  <div class="floating-bg" id="floatingBg"></div>
+
+  <header>
+    <div class="nav-wrap">
+      <a href="#" class="brand">
+        <span class="logo-badge">🎀 AT</span>
+        <div class="brand-title">
+          <span>AURATUBE</span>
+          <span>✨ POOKIE OFFICIAL ✨</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="#auraCheck">🔮 Aura</a>
+        <a href="#team">💖 Team ↓</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="pookie-pill">🌸 100% Certified Diva &amp; Pookie Playlist 🌸</div>
+      <h1>✨ POOKIE SONGS ✨</h1>
+      <div class="caution-banner">🎀 CAUTION! — SIMPS, RED FLAGS &amp; MARD STAY AWAY 💅</div>
+    </section>
+
+    <!-- Daily Pookie Aura Meter -->
+    <section class="aura-box reveal" id="auraCheck">
+      <button class="aura-btn" id="auraBtn">🔮 Check My Pookie Aura Today ✨</button>
+      <div class="aura-result" id="auraResult">Tap above to scan your aura level 🎀</div>
+    </section>
+
+    <section class="grid">
+      <!-- Track 01 -->
+      <article class="reveal" data-track="0" data-title="Paon Ki Jutti — Jyoti Nooran">
+        <div class="video-wrap">
+          <video controls playsinline preload="metadata" src="paon_kijutti.mp4#t=0.5"></video>
+        </div>
+        <div class="meta">
+          <div class="meta-top">
+            <span class="track-num">🎀 TRACK 01</span>
+            <span class="now-playing">💖 VIBING NOW</span>
+          </div>
+          <h3>Paon Ki Jutti</h3>
+          <p class="artist">Jyoti Nooran • Jaani • Bunny</p>
+          <p class="tags">Official Video • Punjabi / Sufi Pop • 2024 🌸</p>
+          <div class="reactions">
+            <button class="react-btn slay-btn" data-key="t1-slay" data-emoji="💅">💅 Slay <span>128</span></button>
+            <button class="react-btn" data-key="t1-pookie" data-emoji="🎀">🎀 Pookie <span>94</span></button>
+            <button class="react-btn" data-key="t1-repel" data-emoji="🚩">🚩 Mard Repellent <span>67</span></button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Track 02 -->
+      <article class="reveal" data-track="1" data-title="Bairan — Banjaare">
+        <div class="video-wrap">
+          <video controls playsinline preload="metadata" src="bairan.mp4#t=0.5"></video>
+        </div>
+        <div class="meta">
+          <div class="meta-top">
+            <span class="track-num">🎀 TRACK 02</span>
+            <span class="now-playing">💖 VIBING NOW</span>
+          </div>
+          <h3>Bairan</h3>
+          <p class="artist">Banjaare</p>
+          <p class="tags">Official Video • Haryanvi / Indie Folk • 2024 ✨</p>
+          <div class="reactions">
+            <button class="react-btn slay-btn" data-key="t2-slay" data-emoji="💅">💅 Slay <span>112</span></button>
+            <button class="react-btn" data-key="t2-pookie" data-emoji="🎀">🎀 Pookie <span>88</span></button>
+            <button class="react-btn" data-key="t2-repel" data-emoji="🚩">🚩 Mard Repellent <span>54</span></button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Track 03 -->
+      <article class="reveal" data-track="2" data-title="Jutti Meri — Neha Bhasin">
+        <div class="video-wrap">
+          <video controls playsinline preload="metadata" src="jutti_meri.mp4#t=0.5"></video>
+        </div>
+        <div class="meta">
+          <div class="meta-top">
+            <span class="track-num">🎀 TRACK 03</span>
+            <span class="now-playing">💖 VIBING NOW</span>
+          </div>
+          <h3>Jutti Meri (Jhoom)</h3>
+          <p class="artist">Neha Bhasin</p>
+          <p class="tags">Official Video • Punjabi Folk • 2021 🌷</p>
+          <div class="reactions">
+            <button class="react-btn slay-btn" data-key="t3-slay" data-emoji="💅">💅 Slay <span>145</span></button>
+            <button class="react-btn" data-key="t3-pookie" data-emoji="🎀">🎀 Pookie <span>109</span></button>
+            <button class="react-btn" data-key="t3-repel" data-emoji="🚩">🚩 Mard Repellent <span>81</span></button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Founders Section -->
+    <section id="team">
+      <h2>👑 POOKIE FOUNDERS 👑</h2>
+      <div class="team-grid">
+        <div class="member-card reveal">
+          <div class="avatar">🎀</div>
+          <div>
+            <p class="role">✨ POOKIE FOUNDER</p>
+            <h3>Piyush Choubey</h3>
+            <p class="college">BIT Durg • Diva Dept. 💅</p>
+          </div>
+        </div>
+
+        <div class="member-card reveal">
+          <div class="avatar">💖</div>
+          <div>
+            <p class="role">🌸  POOKIE CO-FOUNDER</p>
+            <h3>Vansh Bamula</h3>
+            <p class="college">BIT Durg • Slay Dept. ✨</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-wrap">
+      <span>🎀 AURATUBE </span>
+      <span>© 2026 Slay Rights Reserved 💖</span>
+    </div>
+  </footer>
+
+  <!-- Floating Mini Pookie Player -->
+  <div class="mini-player">
+    <span class="disc" id="miniDisc">💿</span>
+    <div class="mini-info">
+      <div class="mini-label" id="miniStatus">Pookie Radio • Ready</div>
+      <div class="mini-title" id="miniTitle">Paon Ki Jutti — Jyoti Nooran</div>
+    </div>
+    <div class="mini-controls">
+      <button class="mini-btn" id="miniPlayBtn">▶ Play</button>
+      <button class="mini-btn" id="miniNextBtn">⏭</button>
+      <button class="mini-btn alt" id="miniShuffleBtn" title="Shuffle Track">🔀</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Vibe Check Modal Logic
+    const vibeModal = document.getElementById('vibeModal');
+    const enterPookieBtn = document.getElementById('enterPookieBtn');
+    const mardBtn = document.getElementById('mardBtn');
+    const roastAlert = document.getElementById('roastAlert');
+
+    enterPookieBtn.addEventListener('click', () => {
+      vibeModal.classList.add('hidden');
+      burstConfetti();
+    });
+
+    mardBtn.addEventListener('click', () => {
+      roastAlert.style.display = 'block';
+    });
+
+    function burstConfetti() {
+      const icons = ['🎀', '💖', '✨', '🌸', '💅', '🌷'];
+      for (let i = 0; i < 32; i++) {
+        const el = document.createElement('span');
+        el.className = 'pop-emoji';
+        el.textContent = icons[i % icons.length];
+        el.style.left = (10 + Math.random() * 80) + 'vw';
+        el.style.top = (30 + Math.random() * 50) + 'vh';
+        el.style.fontSize = (1.2 + Math.random() * 1.2) + 'rem';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1000);
+      }
+    }
+
+    // 2. Interactive Aura Meter
+    const auraFortunes = [
+      "✨ +9999 AURA: Certified Main Character! Today is 100% your slay day 💅",
+      "🎀 +5000 POOKIE POINTS: Iced coffee energy & zero stress allowed today 🌸",
+      "👑 SUPREME DIVA ALERT: Red flags are automatically blocked from your DMs 🚩",
+      "💖 +8888 GLOW UP: Your vibe is immaculate — play Paon Ki Jutti immediately 🌷",
+      "🦋 ICONIC ENERGY: Everyone is secretly jealous of your playlist today ✨"
+    ];
+
+    document.getElementById('auraBtn').addEventListener('click', () => {
+      const pick = auraFortunes[Math.floor(Math.random() * auraFortunes.length)];
+      document.getElementById('auraResult').textContent = pick;
+      burstConfetti();
+    });
+
+    // 3. Floating Background Icons
+    const bg = document.getElementById('floatingBg');
+    const bgIcons = ['🎀', '💖', '✨', '🌸', '🌷', '🦋', '💅'];
+    for (let i = 0; i < 22; i++) {
+      const span = document.createElement('span');
+      span.className = 'floater';
+      span.textContent = bgIcons[i % bgIcons.length];
+      span.style.left = Math.random() * 100 + 'vw';
+      span.style.animationDuration = (8 + Math.random() * 10) + 's';
+      span.style.animationDelay = (Math.random() * 10) + 's';
+      span.style.fontSize = (1 + Math.random() * 1.1) + 'rem';
+      bg.appendChild(span);
+    }
+
+    // 4. Cursor Sparkle Trail
+    let lastSparkle = 0;
+    const trailIcons = ['✨', '💖', '🎀', '🌸'];
+    window.addEventListener('pointermove', (e) => {
+      const now = Date.now();
+      if (now - lastSparkle < 75) return;
+      lastSparkle = now;
+
+      const s = document.createElement('span');
+      s.className = 'sparkle';
+      s.textContent = trailIcons[Math.floor(Math.random() * trailIcons.length)];
+      s.style.left = e.clientX + 'px';
+      s.style.top = e.clientY + 'px';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 850);
+    });
+
+    // 5. Interactive Slay & Pookie Reaction Counters
+    function incrementReaction(btn, x, y) {
+      const key = 'auratube_' + btn.dataset.key;
+      const countSpan = btn.querySelector('span');
+      const nextVal = parseInt(countSpan.textContent, 10) + 1;
+      countSpan.textContent = nextVal;
+      localStorage.setItem(key, nextVal);
+
+      if (x && y) {
+        const pop = document.createElement('span');
+        pop.className = 'pop-emoji';
+        pop.textContent = btn.dataset.emoji;
+        pop.style.left = x + 'px';
+        pop.style.top = y + 'px';
+        document.body.appendChild(pop);
+        setTimeout(() => pop.remove(), 1000);
+      }
+    }
+
+    document.querySelectorAll('.react-btn').forEach((btn) => {
+      const key = 'auratube_' + btn.dataset.key;
+      const countSpan = btn.querySelector('span');
+      const saved = localStorage.getItem(key);
+      if (saved) countSpan.textContent = saved;
+
+      btn.addEventListener('click', (e) => {
+        incrementReaction(btn, e.clientX, e.clientY);
+      });
+    });
+
+    // Double-Tap Card for Heart Burst + Auto Slay
+    document.querySelectorAll('article[data-track]').forEach((card) => {
+      card.addEventListener('dblclick', () => {
+        const heart = document.createElement('span');
+        heart.className = 'dbl-heart';
+        heart.textContent = '💖';
+        card.appendChild(heart);
+        setTimeout(() => heart.remove(), 800);
+
+        const slayBtn = card.querySelector('.slay-btn');
+        if (slayBtn) incrementReaction(slayBtn);
+      });
+    });
+
+    // 6. Mini Player, Shuffle & Auto-Play Next Queue
+    const cards = Array.from(document.querySelectorAll('article[data-track]'));
+    const videos = cards.map((c) => c.querySelector('video'));
+    const miniDisc = document.getElementById('miniDisc');
+    const miniStatus = document.getElementById('miniStatus');
+    const miniTitle = document.getElementById('miniTitle');
+    const miniPlayBtn = document.getElementById('miniPlayBtn');
+    const miniNextBtn = document.getElementById('miniNextBtn');
+    const miniShuffleBtn = document.getElementById('miniShuffleBtn');
+    let currentIdx = 0;
+
+    function updateMiniPlayer(idx, isPlaying) {
+      currentIdx = idx;
+      miniTitle.textContent = cards[idx].dataset.title;
+      miniStatus.textContent = isPlaying ? '💖 Now Vibing' : 'Pookie Radio • Paused';
+      miniPlayBtn.textContent = isPlaying ? '⏸ Pause' : '▶ Play';
+      miniDisc.classList.toggle('spinning', isPlaying);
+    }
+
+    function playTrack(idx) {
+      videos[currentIdx].pause();
+      cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      videos[idx].play();
+    }
+
+    videos.forEach((vid, idx) => {
+      const card = cards[idx];
+      vid.addEventListener('play', () => {
+        videos.forEach((other, otherIdx) => {
+          if (other !== vid) other.pause();
+          cards[otherIdx].classList.remove('playing');
+        });
+        card.classList.add('playing');
+        updateMiniPlayer(idx, true);
+      });
+
+      vid.addEventListener('pause', () => {
+        card.classList.remove('playing');
+        if (currentIdx === idx) updateMiniPlayer(idx, false);
+      });
+
+      vid.addEventListener('ended', () => {
+        card.classList.remove('playing');
+        playTrack((idx + 1) % videos.length);
+      });
+    });
+
+    miniPlayBtn.addEventListener('click', () => {
+      const activeVid = videos[currentIdx];
+      activeVid.paused ? activeVid.play() : activeVid.pause();
+    });
+
+    miniNextBtn.addEventListener('click', () => {
+      playTrack((currentIdx + 1) % videos.length);
+    });
+
+    miniShuffleBtn.addEventListener('click', () => {
+      let randIdx = currentIdx;
+      while (randIdx === currentIdx && videos.length > 1) {
+        randIdx = Math.floor(Math.random() * videos.length);
+      }
+      playTrack(randIdx);
+    });
+
+    // 7. Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), idx * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>
